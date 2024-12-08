@@ -1,4 +1,7 @@
-﻿using RabbitMQ.Client;
+﻿using FinancialChatApp_V2.Data;
+using FinancialChatApp_V2.Models;
+using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Net.Security;
 using System.Text;
@@ -44,10 +47,11 @@ namespace FinancialChatApp_V2.Services
                 );
         }
 
-        public Task SendMessageAsync(string message)
+        public async Task<Task> SendMessageAsync(ChatMessage message)
         {
-            var body = Encoding.UTF8.GetBytes(message);
-            _channel.BasicPublishAsync(
+
+            var body = Encoding.UTF8.GetBytes(message.Content);
+            await _channel.BasicPublishAsync(
                 exchange: "",
                 routingKey: "ChatQueue",
                 mandatory: false,  // Use mandatory flag
@@ -57,7 +61,7 @@ namespace FinancialChatApp_V2.Services
             return Task.CompletedTask;
         }
 
-        public Task ReceiveMessageAsync(Func<string, Task> onMessageReceived)
+        public async Task<Task> ReceiveMessageAsync(Func<string, Task> onMessageReceived)
         {
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.ReceivedAsync += async (model, ea) =>
@@ -67,7 +71,7 @@ namespace FinancialChatApp_V2.Services
                 await onMessageReceived(message);
             };
 
-            _channel.BasicConsumeAsync(
+            await _channel.BasicConsumeAsync(
                   queue: "ChatQueue",
                   autoAck: true,
                   consumer: consumer

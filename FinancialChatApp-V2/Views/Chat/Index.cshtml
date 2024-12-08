@@ -34,15 +34,13 @@
     $(document).ready(function () {
         // Handle form submission via AJAX
         $("form").submit(function (e) {
-            e.preventDefault();
-            const message = $("textarea[name='message']").val();
+            e.preventDefault(); // Prevent default form submission
 
+            const message = $("textarea[name='message']").val(); 
             $.post("@Url.Action("SendMessage", "Chat")", { message: message })
                 .done(function () {
-                    // Clear the textarea after sending the message
                     $("textarea[name='message']").val("");
 
-                    // Optionally reload messages
                     loadMessages();
                 });
         });
@@ -53,8 +51,6 @@
                 $("#messages").html($(data).find("#messages").html());
             });
         }
-
-        // Periodically reload messages
         setInterval(loadMessages, 5000);
     });
 </script>

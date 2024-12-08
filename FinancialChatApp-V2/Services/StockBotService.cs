@@ -1,4 +1,6 @@
-﻿namespace FinancialChatApp_V2.Services
+﻿using FinancialChatApp_V2.Models;
+
+namespace FinancialChatApp_V2.Services
 {
     public class StockBotService
     {
