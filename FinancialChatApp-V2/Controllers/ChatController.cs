@@ -34,7 +34,9 @@ namespace FinancialChatApp_V2.Controllers
             {
                 Content = message,
                 UserName = User.Identity.Name ?? "Anonymous",
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now,
+                ChatRoomId = 1
+                
             };
 
             _dbContext.Messages.Add(chatMessage);
