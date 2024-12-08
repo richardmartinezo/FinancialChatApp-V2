@@ -47,10 +47,10 @@ namespace FinancialChatApp_V2.Services
                 );
         }
 
-        public async Task<Task> SendMessageAsync(ChatMessage message)
+        public async Task<Task> SendMessageAsync(string message)
         {
 
-            var body = Encoding.UTF8.GetBytes(message.Content);
+            var body = Encoding.UTF8.GetBytes(message);
             await _channel.BasicPublishAsync(
                 exchange: "",
                 routingKey: "ChatQueue",
