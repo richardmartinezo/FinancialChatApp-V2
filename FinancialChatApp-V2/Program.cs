@@ -16,9 +16,6 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlSer
 builder.Services.AddSingleton<RabbitMQService>();
 builder.Services.AddSingleton<StockBotService>();
 
-
-
-
 var app = builder.Build();
 
 var rabbitMQService = app.Services.GetRequiredService<RabbitMQService>();
